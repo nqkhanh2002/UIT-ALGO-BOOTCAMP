@@ -1,0 +1,107 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+struct node {
+    ll lazy;
+    ll max;
+    node() {
+        lazy = max = 0;
+    }
+};
+class segtree {
+    public:
+        vector<node> tree;
+        ll size;
+        // kick thuoc segment tree
+        void merge (ll id) {
+            tree[id].max = max(tree[id<<1].max,tree[id<<1|1].max);
+        }
+        // khoi tao segment tree
+        void build(vector<ll> &a, ll l, ll r, ll id){
+            if(l > r) {
+                return;
+            }
+            if(l == r) {
+                tree[id].max = a[l];
+                return;
+            }
+            ll mid = (l+r) >> 1;
+            build(a,l,mid,id<<1)    ;
+            build(a,mid+1,r,id<<1|1);
+            merge(id);
+        }
+        void push(ll l,ll r,ll id) {
+            if(l == r) {
+                tree[id].max += tree[id].lazy;
+                tree[id].lazy = 0;
+                return;
+            }
+            tree[id].max += tree[id].lazy;  
+            
+            tree[id<<1].lazy += tree[id].lazy;
+            tree[id<<1|1].lazy += tree[id].lazy;
+            tree[id].lazy = 0;
+        }
+        void update(ll l,ll r,ll u,ll v,ll x,ll id) {
+            push(l,r,id);
+            if(v < l || u > r || l > r) return;
+            if(u<=l && v >= r) {
+                tree[id].lazy = x;
+                push(l,r,id);
+                return;
+            }
+            ll mid = (l+r)>>1;
+            update(l,mid,u,v,x,id<<1);
+            update(mid+1,r,u,v,x,id<<1|1);
+            merge(id);
+        }
+        void update(ll u,ll v,ll x){
+            update(1,size,u,v,x,1);
+        }
+        ll query(ll l,ll r, ll u, ll v, ll id) {
+            push(l,r,id);
+            if(r < u || v < l || l>r) return 0;
+            if(u<=l&&v>=r) {
+                return tree[id].max;
+            }
+            ll mid = (l+r)>>1;
+            return max(query(l,mid,u,v,id<<1),query(mid+1,r,u,v,id<<1|1));
+        }
+        ll query(ll u,ll v) {
+            return query(1,size,u,v,1);
+        }
+        segtree(vector<ll> & a,ll n) {
+            size = n;
+            tree.resize(4*size);
+            build(a,1,size,1);
+        }
+};
+int main(){
+    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	ll n, q;
+	cin >> n >> q;
+	vector<ll>a(n + 1);
+	for (ll i = 1; i <= n; i++) 
+	{
+		cin >> a[i];
+	}
+	segtree t   (a,n);
+	for (ll i = 1; i <= q; i++)
+	{
+		ll x;
+		cin >> x;
+		if (x==1)
+		{
+			ll l, r, x;
+			cin >> l >> r >> x;
+			t.update(l, r, x);
+		}
+		else
+		{
+			ll u, v;
+			cin >> u >> v;
+			cout << t.query(u, v) << "\n";
+		}
+	}
+}
