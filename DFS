@@ -1,0 +1,63 @@
+// DFS algorithm in C++
+
+#include <iostream>
+#include <list>
+using namespace std;
+        
+        class Graph {
+        private:
+          int sodinh;
+          list<int> *queue;
+          bool *visited;
+        public:
+          Graph(int V);
+          void themCanh(int u, int v);
+          void DFS(int dinh);
+        };
+        
+        // Initialize graph
+        
+        
+        Graph::Graph(int dinh) {
+          sodinh = dinh;
+          stacks = new list<int>[dinh];
+          visited = new bool[dinh];
+        }
+        
+        
+        
+        // Add edges
+        
+        
+        
+        
+        void Graph::themCanh(int u, int v) {
+          stacks[u].push_front(v);
+          stacks[u].push_front(v);
+        }
+        
+        // DFS algorithm
+        
+        
+        void Graph::DFS(int dinh) {
+          visited[dinh] = true;
+          list<int> stack = stacks[dinh];
+          // In ra các đỉnh đã duyệt
+          cout << dinh << " ";
+          list<int>::iterator i;
+          for (i = stack.begin(); i != stack.end(); ++i)
+            if (!visited[*i])
+              DFS(*i);
+        }
+        
+        int main() {
+          Graph g(4);
+          g.themCanh(0, 1);
+          g.themCanh(0, 2);
+          g.themCanh(1, 2);
+          g.themCanh(2, 3);
+        
+          g.DFS(2);
+        
+          return 0;
+        }
