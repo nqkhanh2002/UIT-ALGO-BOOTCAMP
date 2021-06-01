@@ -22,6 +22,9 @@ t
             Graph::Graph(int sodinh) {
               sodinh = sodinh;
               queues = new list<int>[sodinh];
+              visited = new bool[sodinh];
+              for (int i = 0; i < sodinh; i++)
+                visited[i] = false; 
             }
 
 // Them canh
@@ -36,12 +39,7 @@ t
 // BFS algorithm
         
         void Graph::BFS(int dinh) {
-          visited = new bool[sodinh];
-          for (int i = 0; i < sodinh; i++)
-            visited[i] = false;
-        
-          list<int> queue;
-        
+          list<int> queue;      
           visited[dinh] = true;
           queue.push_back(dinh);
         
