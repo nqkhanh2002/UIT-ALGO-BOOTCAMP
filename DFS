@@ -33,7 +33,7 @@ using namespace std;
         
         void Graph::themCanh(int u, int v) {
           stacks[u].push_front(v);
-          stacks[u].push_front(v);
+          stacks[v].push_front(u);
         }
         
         // DFS algorithm
