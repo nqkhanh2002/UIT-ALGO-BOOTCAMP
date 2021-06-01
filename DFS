@@ -22,6 +22,8 @@ using namespace std;
           sodinh = dinh;
           stacks = new list<int>[dinh];
           visited = new bool[dinh];
+          for (int i = 0; i < dinh; i++)
+           visited[i] = false;
         }
         
         
