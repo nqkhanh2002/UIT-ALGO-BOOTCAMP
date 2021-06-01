@@ -16,8 +16,7 @@ using namespace std;
               void BFS(int dinh);
         };
 
-// Create a graph with given sodinh,
-// and maintain an adjacency lis
+// Khoi tao Graph
 
 t
             Graph::Graph(int sodinh) {
@@ -25,8 +24,7 @@ t
               queues = new list<int>[sodinh];
             }
 
-// Add edges to the graph
-
+// Them canh
 
             void Graph::addEdge(int u, int v) {
               queues[u].push_back(v);
